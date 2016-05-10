@@ -5,13 +5,7 @@ Computer Security Virus Detection
 Simple virus detection program 
 ==============================
 
-Specify the strings that need to be 
-
-detected in the "scanned" input files
-
-and it will output the corresponding
-
-location if exists
+Specify the strings that need to be detected in the "scanned" input files and it will output the corresponding location if exist.
 
 
 Flags
