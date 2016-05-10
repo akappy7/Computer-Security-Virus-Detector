@@ -1,0 +1,4 @@
+This is just a small file
+hi how are you.
+This is the matching string: Nitta
+Did you find it?
