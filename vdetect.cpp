@@ -104,19 +104,15 @@ int main(int argc, char *argv[]){
 	}
 
 	if( match && !b.returnMal()){
-		cout<<"matches and no malformed strs"<<endl;
 		return 1;
 	}//matches and no malformed strs
 	if( match && b.returnMal()){
-		cout<<"matches and malformed strs"<<endl;
 		return 3;
 	}//matches and malformed strs
 	if( !match && b.returnMal() ){
-		cout<<"no matches and malformed string"<<endl;
 		return 2;
 	}//no matches and malformed string
 	if(!match){
-		cout<<"no matches"<<endl;
 		return 0;
 	}//no matches
 }
