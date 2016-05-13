@@ -31,12 +31,12 @@ void List_strings::pA(){
 void List_strings::seeString(){
 	vector<string>::iterator v = str.begin();
 	while( v != str.end()) {
-      cout << "String in str1: = " << *v << endl;
+      cout << "String in str1: =" << *v << endl;
       v++;
    }
    vector<string>::iterator v1 = name.begin();
 	while( v1 != name.end()) {
-      cout << "String in name2: = " << *v1 << endl;
+      cout << "String in name1: =" << *v1 << endl;
       v1++;
    }
 }
@@ -69,14 +69,20 @@ void List_strings::resetBothIter(){
 }
 
 
-char * convertString(char * tok){
-	char *temp = new char[strlen(tok)];
+string convertString(char * tok){
+	//char *temp = new char[strlen(tok)];
+	string temp = "";
 	int c = 0;
 	int num = 0;
 	for(int x = 0; x < (signed)strlen(tok); x++){
+		if ( c == 0 && tok[x] == ' '){
+			continue;
+		}//skip blank space
 		if(tok[x] == '\\' && tok[x+1] == 'x'){
 			int t2;
 			int t3;
+			bool f1 = 0;
+			bool f2 = 0;
 			if( tok[x+2] == 'a'  || tok[x+2] == 'A'){
 				t2 = 10;
 			}
@@ -95,10 +101,13 @@ char * convertString(char * tok){
 			else if( tok[x+2] == 'f'  || tok[x+2] == 'F'){
 				t2 = 15;
 			}
-			else{
+			else if((int)tok[x+2] > 47 && (int)tok[x+2] < 58){
 				t2 = ((int)tok[x+2] - 48);
-
 			}
+			else{
+				f1 = 1;
+			}
+
 			if( tok[x+3] == 'a'  || tok[x+3] == 'A'){
 				t3 = 10;
 			}
@@ -117,22 +126,67 @@ char * convertString(char * tok){
 			else if( tok[x+3] == 'f'  || tok[x+3] == 'F'){
 				t3 = 15;
 			}
-			else{
+			else if ( (int)tok[x+3] > 47 && (int)tok[x+3] <58){
+				//cout<<"Tok[x+3]:"<<tok[x+3]<<endl;
+				//cout<<"tok[x+3]:"<<(int)tok[x+3]<<endl;
 				t3 = ((int)tok[x+3] - 48);
+				//cout<<"T3:"<<t3<<endl;
+			}
+			else{
+				f2 = 1;
+			}
+			if( f1 || f2){
+				//temp[c] = tok[x];
+				//temp[c+1] = tok[x+1];
+				//temp[c+2] = tok[x+2];
+				//temp[c+3] = tok[x+3];
+				
+				/*char c = tok[x];
+				temp.append(&c);
+				c = tok[x+1];
+				temp.append(&c);
+				c = tok[x+2];
+				temp.append(&tok[x+2]);
+				c = tok[x+3];
+				temp.append(&c);*/
+
+				temp.push_back(tok[x]);
+				temp.push_back(tok[x+1]);
+				temp.push_back(tok[x+2]);
+				temp.push_back(tok[x+3]);
+
+				/*cout<<tok[x]<<endl;
+				cout<<tok[x+1]<<endl;
+				cout<<tok[x+2]<<endl;
+				cout<<tok[x+3]<<endl;*/
+				//c = c + 4;
+				x = x + 3;
+				continue;
 			}
 			num = t2 *16 + t3;
-			//cout<<"num: "<<num<<endl;
-			temp[c] = (char)num;
-			c++;
-			x = x + 2;
+
+			if(num == 0){
+				temp.push_back('\0');
+			}
+			else{
+				temp.push_back((char)num);
+			}
+			//c++;
+			//cout<<temp<<endl;
+			x = x + 3;
 		}
 		else{
-			temp[c] = tok[x];
-			c++;
+			//temp[c] = tok[x];
+			//char c = tok[x];
+			temp.push_back(tok[x]);
+			//c++;
 		}
+	//	cout<<"X:"<<x<<endl;
 	}
-	tok = temp;
-	return tok;
+	//tok = temp;
+	//cout<<"TEMP: "<<temp<<endl;
+	//cout<<"size:"<<temp.length()<<endl;
+	return temp;
 }
 
 void List_strings::parseStrings(){
@@ -156,14 +210,14 @@ void List_strings::parseStrings(){
   			 tok = strtok (line,":");
   			// cout<<"line: "<< line<<endl; 
   			 tok = strtok (NULL, "\n");
-  			 //cout<<"tok: "<< tok<<endl;
+  			// cout<<"tok: "<< tok<<endl;
   			 if (tok == NULL){
   			 	cout<<"line " << lineC<<": Malformed line in " << strfile<<endl;
   			 	mal = 1;
   			 	continue;
   			 }
-  			 tok = convertString(tok);
-  			 str.push_back(tok);
+  			 string tok1 = convertString(tok);
+  			 str.push_back(tok1);
   			 name.push_back(line);
   			 number_Strings++;
     	}

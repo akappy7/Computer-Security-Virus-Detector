@@ -14,13 +14,45 @@ int main(int argc, char *argv[]){
 	//a.getParam();
 	b.setFile(a.returnStrFile());
 	b.pA();
-
-	for(int i = 0; i < a.getInputCount(); i++){
-		FILE * pFile;
-		if(!a.returnSilent()){
-			cout<<"******"<<a.getInputFile(i)<<"*****"<<endl;
+	string aString; 
+	if( a.getInputCount() == 0){
+		string aString; 
+		char tempChar; 
+		while (!cin.eof()) { 
+   			cin.get(tempChar); 
+   			aString += tempChar; 
 		}
-		pFile=fopen(a.getInputFile(i).c_str(),"rb");
+		int totalByte = 0;
+		//******************************
+   			b.resetBothIter();
+			for( int i = 0; i < b.returnNumber(); i++){
+				string name = b.getNextName();
+				string signuture = b.getNextString();
+				size_t found = aString.find(signuture);
+				if (found!=std::string::npos){
+					//cout<<found<<endl;
+					//cout<<totalByte<<endl;
+					if(!a.returnSilent()){
+						cout<<"("<<totalByte+found<<"): "<< name<<endl;
+					}
+					match = 1;
+				}
+				if( a.returnStop()){
+					break;
+				}
+				//totalByte = totalByte+ currentLine.size();
+			}
+			//*******************
+	}
+	//cout<<aString<<endl;
+
+	for(int j = 0; j < a.getInputCount(); j++){
+		bool file_flag = 0;
+		FILE * pFile;
+		/*if(!a.returnSilent()){
+			cout<<"******"<<a.getInputFile(i)<<"*****"<<endl;
+		}*/
+		pFile=fopen(a.getInputFile(j).c_str(),"rb");
 		if(pFile == NULL){
 			perror("Error");
 			continue;
@@ -43,18 +75,26 @@ int main(int argc, char *argv[]){
 					//cout<<found<<endl;
 					//cout<<totalByte<<endl;
 					if(!a.returnSilent()){
-						cout<<"Found ["<< name<< "] at byte position "<<totalByte+found<<"."<<endl;
+						if(a.getInputCount() > 1){
+							cout<<a.getInputFile(j);
+						}
+						cout<<"("<<totalByte+found<<"): "<< name<<endl;
 					}
 					match = 1;
-					if( a.returnStop()){
+					file_flag = 1;
+					/*if( a.returnStop()){
 						if(b.returnMal()){
 							return 3;
 						}//match and malform
 						else{
 							return 1;
 						}//matches and no malformed string
-					}
+						break;
+					}*/
 				}
+			}
+			if( a.returnStop() && file_flag){
+				break;
 			}
 			totalByte = totalByte+ currentLine.size();
 		}
@@ -62,7 +102,7 @@ int main(int argc, char *argv[]){
 	/*b.resetBothIter();
 	cout<<"Name:"<<b.getNextName()<<endl;
 	cout<<"String:"<<b.getNextString()<<endl;*/
-	//b.seeString();
+//	b.seeString();
 
 	if( match && !b.returnMal()){
 		return 1;

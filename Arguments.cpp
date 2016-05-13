@@ -28,13 +28,17 @@ string Arguments::getInputFile(int n){
 }
 
 void Arguments::setParam(int argc, char *argv[]){
-	if(argc < 1 ){
+	/*if(argc < 1 ){
 		cout<<"Argument error"<<endl;
 		exit(1);
-	}
+	}*/
 	for(int x = 1; x < argc; x++){
 		if( !strcmp(argv[x], "-d")){
 			d = 1;
+			if ( x+1 == argc){
+				perror("-d: requires signuture file");
+				exit(1);
+			}//nothing after -d
 			x = x+1;
 			strfile = argv[x];
 		}
