@@ -18,11 +18,11 @@ class List_strings{
 		bool mal;
 		vector<string>::iterator iter_str;
 		vector<string>::iterator iter_name;
-		void parseStrings();
+		void parseStrings(bool q);
 
 	public:
 	List_strings();
-	void pA();
+	void pA(bool q);
 	void setFile(string file);
 	void checkFile(FILE * file);
 	void seeString();

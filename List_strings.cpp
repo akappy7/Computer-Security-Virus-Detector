@@ -23,10 +23,8 @@ void List_strings::checkFile(FILE * file){
 
 }
 
-void List_strings::pA(){
-	//cout<<"Update file: "<<strfile<<endl;
-	parseStrings();
-	//seeString();
+void List_strings::pA(bool q){
+	parseStrings(q);
 }
 void List_strings::seeString(){
 	vector<string>::iterator v = str.begin();
@@ -70,7 +68,6 @@ void List_strings::resetBothIter(){
 
 
 string convertString(char * tok){
-	//char *temp = new char[strlen(tok)];
 	string temp = "";
 	int c = 0;
 	int num = 0;
@@ -127,39 +124,19 @@ string convertString(char * tok){
 				t3 = 15;
 			}
 			else if ( (int)tok[x+3] > 47 && (int)tok[x+3] <58){
-				//cout<<"Tok[x+3]:"<<tok[x+3]<<endl;
-				//cout<<"tok[x+3]:"<<(int)tok[x+3]<<endl;
 				t3 = ((int)tok[x+3] - 48);
-				//cout<<"T3:"<<t3<<endl;
 			}
 			else{
 				f2 = 1;
 			}
 			if( f1 || f2){
-				//temp[c] = tok[x];
-				//temp[c+1] = tok[x+1];
-				//temp[c+2] = tok[x+2];
-				//temp[c+3] = tok[x+3];
-				
-				/*char c = tok[x];
-				temp.append(&c);
-				c = tok[x+1];
-				temp.append(&c);
-				c = tok[x+2];
-				temp.append(&tok[x+2]);
-				c = tok[x+3];
-				temp.append(&c);*/
+
 
 				temp.push_back(tok[x]);
 				temp.push_back(tok[x+1]);
 				temp.push_back(tok[x+2]);
 				temp.push_back(tok[x+3]);
 
-				/*cout<<tok[x]<<endl;
-				cout<<tok[x+1]<<endl;
-				cout<<tok[x+2]<<endl;
-				cout<<tok[x+3]<<endl;*/
-				//c = c + 4;
 				x = x + 3;
 				continue;
 			}
@@ -171,48 +148,37 @@ string convertString(char * tok){
 			else{
 				temp.push_back((char)num);
 			}
-			//c++;
-			//cout<<temp<<endl;
 			x = x + 3;
 		}
 		else{
-			//temp[c] = tok[x];
-			//char c = tok[x];
 			temp.push_back(tok[x]);
-			//c++;
 		}
-	//	cout<<"X:"<<x<<endl;
 	}
-	//tok = temp;
-	//cout<<"TEMP: "<<temp<<endl;
-	//cout<<"size:"<<temp.length()<<endl;
 	return temp;
 }
 
-void List_strings::parseStrings(){
+void List_strings::parseStrings(bool q){
 	FILE * pFile;
 	char line[1024];
 	char * tok;
 	int lineC = 0;
-	//cout<<"Open File"<<endl;
 	pFile=fopen(strfile.c_str(),"rb");
 	if(pFile == NULL){
-		perror("Error");
+		perror(strfile.c_str());
 	}//str file cannot open
 	else{
 		 while( fgets(line,1024,pFile) ) {
 		 	 lineC = lineC + 1;
        		 if(line[0] == '#')
        		 {
-       		 	//cout<<"skipped #"<<endl;
        		 	continue;
        		 }
   			 tok = strtok (line,":");
-  			// cout<<"line: "<< line<<endl; 
   			 tok = strtok (NULL, "\n");
-  			// cout<<"tok: "<< tok<<endl;
   			 if (tok == NULL){
-  			 	cout<<"line " << lineC<<": Malformed line in " << strfile<<endl;
+  			 	if(!q){
+  			 		cout<<"line " << lineC<<": Malformed line in " << strfile<<endl;
+  			 	}
   			 	mal = 1;
   			 	continue;
   			 }

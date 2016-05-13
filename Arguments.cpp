@@ -13,7 +13,7 @@ Arguments::Arguments(){
 	q = 0;
 	strfile="vdetect.str";
 	inputCount = 0;
-	inputFile = new string[10];
+	inputFile = new string[1000];
 }
 
 int Arguments::getInputCount(){
@@ -28,10 +28,7 @@ string Arguments::getInputFile(int n){
 }
 
 void Arguments::setParam(int argc, char *argv[]){
-	/*if(argc < 1 ){
-		cout<<"Argument error"<<endl;
-		exit(1);
-	}*/
+
 	for(int x = 1; x < argc; x++){
 		if( !strcmp(argv[x], "-d")){
 			d = 1;
